@@ -1,0 +1,42 @@
+    1  yum install -y httpd php gcc glibc glibc-common gd gd-devel perl perl-devel openssl-devel
+    2  yum clean packages
+    3  useradd nagios
+    4  passwd nagios
+    5  usermod -a -G nagcmd nagios
+    6  groupadd nagcmd
+    7  usermod -a -G nagcmd nagios
+    8  usermod -a -G nagcmd apache
+    9  mkdir nagios
+   10  cd nagios
+   11  wget https://sourceforge.net/projects/nagios/files/nagios-4.x/nagios-4.4.11/nagios-4.4.11.tar.gz
+   12  yum install wget -y
+   13  wget https://sourceforge.net/projects/nagios/files/nagios-4.x/nagios-4.4.11/nagios-4.4.11.tar.gz
+   14  ls
+   15  tar -xvf nagios-4.4.11.tar.gz
+   16  ls
+   17  cd nagios-4.4.11.tar.gz
+   18  ls nagios-4.4.11
+   19  cd nagios-4.4.11
+   20  ./configure --with-command-group=nagcmd
+   21  make all
+   22  make install
+   23  make install-init
+   24  make install-commandmode
+   25   make install-config
+   26  make install-webconf
+   27  htpasswd -s -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+   28  systemctl restart httpd
+   29  systemctl enable httpd
+   30  pwd
+   31  wget https://nagios-plugins.org/download/nagios-plugins-2.4.4.tar.gz
+   32  ls
+   33  tar -xvf nagios-plugins-2.4.4.tar.gz
+   34  ls
+   35  cd nagios-plugins-2.4.4
+   36  ./configure --with-nagios-group=nagicmd
+   37  make
+   38  make install
+   39  /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+   40  systemctl start nagios
+   41  systemctl enable nagios
+   42  systemctl status nagios
